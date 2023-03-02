@@ -2,6 +2,7 @@
 import {createTableAluno, insertAluno, updateAluno, selectAlunos, selectAluno, deleteAluno} from './Controler/Aluno.js';
 import {createTableProfessor, insertProfessor, updateProfessor, selectProfessor, selectProfessores, deleteProfessor} from './Controler/Professor.js';
 import {createTableCurso, insertCurso, updateCurso, selectCurso, selectCursos, deleteCurso} from './Controler/Cursos.js';
+import {createTableFuncionario, insertFuncionario, updateFuncionario, selectFuncionario, selectFuncionarios, deleteFuncionario } from './Controler/Funcionario.js';
 
 import express from 'express';
 const app = express();
@@ -10,6 +11,7 @@ app.use(express.json());
 createTableAluno();
 createTableProfessor();
 createTableCurso();
+createTableFuncionario();
 
 app.get('/', function(req, res){
     res.send('olá mundo!')
@@ -143,7 +145,46 @@ app.delete('/curso', async function(req, res){;
 });
 
 //---------------------------------------------------
+//-------------rota funcionario---------------------
 
+app.post('/Funcionario', function(req,res){
+    insertFuncionario(req.body)
+    res.json({
+        "statucCode": 200
+    })
+});
 
+app.put('/Funcionario', function(req,res){
+    if(req.body && !req.body.id ){
+        res.json({
+            "statusCode":"400",
+            "msg":"Você precisa informar um Id"
+        })
+    }else{
+        updateFuncionario(req.body);
+        res.json({
+            "statucCode": 200
+        })
+    }
+});
 
+app.get('/Funcionario', async function(req, res){;
+    //select apenas um curso
+    let Funcionario = await selectFuncionario(req.body.id);
+    res.json(Funcionario);
+});
+
+app.get('/Funcionarios', async function(req, res){;
+    //select todos os cursos
+    let Funcionarios = await selectFuncionarios();
+    res.json(Funcionarios);
+});
+
+app.delete('/Funcionario', async function(req, res){;
+    //delete
+    let Funcionario = await deleteFuncionario(req.body.id);
+    res.json(Funcionario);
+});
+
+//-------------------------------------------------
 app.listen(3000, ()=> console.log('api rodando'));
