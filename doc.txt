@@ -1,0 +1,14 @@
+NPM INIT ->  iniciar o projeto
+
+npm install express -> instanlando o express
+
+npm install --save nodemon -> instalando o nodemon , para a aplicação iniciar automaticamente
+
+npm run dev -> rodar o código
+
+instalar o sqlite3 e o sqlite
+
+extensão para visualizar os dados do banco -> mysql / golfinho
+
+vídeo 06 min 7:30
+aula 07 min 5:35
