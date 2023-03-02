@@ -1,6 +1,7 @@
 // import {openDb} from './configDB.js';
 import {createTableAluno, insertAluno, updateAluno, selectAlunos, selectAluno, deleteAluno} from './Controler/Aluno.js';
 import {createTableProfessor, insertProfessor, updateProfessor, selectProfessor, selectProfessores, deleteProfessor} from './Controler/Professor.js';
+import {createTableCurso, insertCurso, updateCurso, selectCurso, selectCursos, deleteCurso} from './Controler/Cursos.js';
 
 import express from 'express';
 const app = express();
@@ -8,6 +9,7 @@ app.use(express.json());
 
 createTableAluno();
 createTableProfessor();
+createTableCurso();
 
 app.get('/', function(req, res){
     res.send('olá mundo!')
@@ -99,6 +101,49 @@ app.delete('/professor', async function(req, res){;
 
 
 //---------------------------------------------------
+// -------ROTA CURSOS ------------------------------
+
+app.post('/curso', function(req,res){
+    insertCurso(req.body)
+    res.json({
+        "statucCode": 200
+    })
+});
+
+app.put('/curso', function(req,res){
+    if(req.body && !req.body.id ){
+        res.json({
+            "statusCode":"400",
+            "msg":"Você precisa informar um Id"
+        })
+    }else{
+        updateCurso(req.body);
+        res.json({
+            "statucCode": 200
+        })
+    }
+});
+
+app.get('/curso', async function(req, res){;
+    //select apenas um curso
+    let curso = await selectCurso(req.body.id);
+    res.json(curso);
+});
+
+app.get('/cursos', async function(req, res){;
+    //select todos os cursos
+    let cursos = await selectCursos();
+    res.json(cursos);
+});
+
+app.delete('/curso', async function(req, res){;
+    //delete
+    let curso = await deleteCurso(req.body.id);
+    res.json(curso);
+});
+
+//---------------------------------------------------
+
 
 
 app.listen(3000, ()=> console.log('api rodando'));
