@@ -2,7 +2,8 @@
 import {createTableAluno, insertAluno, updateAluno, selectAlunos, selectAluno, deleteAluno} from './Controler/Aluno.js';
 import {createTableProfessor, insertProfessor, updateProfessor, selectProfessor, selectProfessores, deleteProfessor} from './Controler/Professor.js';
 import {createTableCurso, insertCurso, updateCurso, selectCurso, selectCursos, deleteCurso} from './Controler/Cursos.js';
-import {createTableFuncionario, insertFuncionario, updateFuncionario, selectFuncionario, selectFuncionarios, deleteFuncionario } from './Controler/Funcionario.js';
+import { createTableUnidade, insertUnidade, updateUnidade, selectUnidade, selectUnidades, deleteUnidade } from './Controler/Unidade.js';
+import { createTableSegmento, insertSegmento, updateSegmento, selectSegmento, selectSegmentos, deleteSegmento } from './Controler/Segmentos.js';
 
 import express from 'express';
 const app = express();
@@ -11,7 +12,8 @@ app.use(express.json());
 createTableAluno();
 createTableProfessor();
 createTableCurso();
-createTableFuncionario();
+createTableUnidade();
+createTableSegmento();
 
 app.get('/', function(req, res){
     res.send('olá mundo!')
@@ -145,46 +147,95 @@ app.delete('/curso', async function(req, res){;
 });
 
 //---------------------------------------------------
-//-------------rota funcionario---------------------
 
-app.post('/Funcionario', function(req,res){
-    insertFuncionario(req.body)
+//==========ROTA DAS UNIDADES==========================
+
+
+app.post('/unidade', function(req,res){
+    insertUnidade(req.body)
     res.json({
         "statucCode": 200
     })
 });
 
-app.put('/Funcionario', function(req,res){
+app.put('/unidade', function(req,res){
     if(req.body && !req.body.id ){
         res.json({
             "statusCode":"400",
             "msg":"Você precisa informar um Id"
         })
     }else{
-        updateFuncionario(req.body);
+        updateUnidade(req.body);
         res.json({
             "statucCode": 200
         })
     }
 });
 
-app.get('/Funcionario', async function(req, res){;
-    //select apenas um curso
-    let Funcionario = await selectFuncionario(req.body.id);
-    res.json(Funcionario);
+app.get('/unidade', async function(req, res){;
+    //select apenas uma unidade
+    let unidade = await selectUnidade(req.body.id);
+    res.json(unidade);
 });
 
-app.get('/Funcionarios', async function(req, res){;
-    //select todos os cursos
-    let Funcionarios = await selectFuncionarios();
-    res.json(Funcionarios);
+app.get('/unidades', async function(req, res){;
+    //select todos as unidades
+    let unidades = await selectUnidades();
+    res.json(unidades);
 });
 
-app.delete('/Funcionario', async function(req, res){;
+app.delete('/unidade', async function(req, res){;
     //delete
-    let Funcionario = await deleteFuncionario(req.body.id);
-    res.json(Funcionario);
+    let unidade = await deleteUnidade(req.body.id);
+    res.json(unidade);
 });
 
-//-------------------------------------------------
+
+
+
+//-----------------------------------------------------
+//==========ROTA DAS SEGMENTOS==========================
+
+
+app.post('/segmento', function(req,res){
+    insertSegmento(req.body)
+    res.json({
+        "statucCode": 200
+    })
+});
+
+app.put('/segmento', function(req,res){
+    if(req.body && !req.body.id ){
+        res.json({
+            "statusCode":"400",
+            "msg":"Você precisa informar um Id"
+        })
+    }else{
+        updateSegmento(req.body);
+        res.json({
+            "statucCode": 200
+        })
+    }
+});
+
+app.get('/segmento', async function(req, res){;
+    //select apenas um segmento
+    let segmento = await selectSegmento(req.body.id);
+    res.json(segmento);
+});
+
+app.get('/segmentos', async function(req, res){;
+    //select todos os segmentos
+    let segmentos = await selectSegmentos();
+    res.json(segmentos);
+});
+
+app.delete('/segmento', async function(req, res){;
+    //delete
+    let segmento = await deleteSegmento(req.body.id);
+    res.json(segmento);
+});
+
+
+
 app.listen(3000, ()=> console.log('api rodando'));
